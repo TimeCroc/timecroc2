@@ -20,8 +20,15 @@ type EmployeeListProps = {
 }
 
 const EmployeeList = (props: EmployeeListProps) => {
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [addEmployee, setAddEmployee] = useState(false)
+  // const [employees, setEmployees] = useState<Employee[]>([]);
+  // const [addEmployee, setAddEmployee] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {setIsModalOpen(true);
+  };
+
+  const closeModal = () => {setIsModalOpen(false);
+  };
  
   useEffect(() => {
     fetch('/api/employees')
@@ -45,10 +52,12 @@ return (
   <div className="page-container">
     <AdminDashboard isAdminLoggedIn={props.isAdminLoggedIn}/>
     <br></br>
-    <button className='add-employee-btn'onClick={()=> setAddEmployee(true)}>Add Employee</button>
-    {addEmployee && (
+    {/* <button className='add-employee-btn'onClick={()=> setAddEmployee(true)}>Add Employee</button> */}
+    <button className='add-employee-btn'onClick={openModal}>Add Employee</button>
+    {/* {addEmployee && (
       <AddEmployee setAddEmployee={setAddEmployee}/>
-    )}
+    )} */}
+    <AddEmployee isOpen={isModalOpen} onClose={closeModal} />
     <h2>Employee List: </h2>
     <ul>
       {display}

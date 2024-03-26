@@ -19,10 +19,13 @@ interface Body {
   hourly_rate: number
 }
 type AddEmployeeProps ={
-  setAddEmployee: (boolean) => void;
+  // setAddEmployee: (boolean) => void;
+  isOpen: boolean;
+  onClose: () => void;
+  setAddEmployee: (value: boolean) => void;
 }
 
-const AddEmployee = (props: AddEmployeeProps) => {
+const AddEmployee: React.FC<AddEmployeeProps> = ({ isOpen, onClose }) => {
   const [ pin, setPin ] = useState<number>(0);
   const [ first_name, setFirstName ] = useState<string>('');
   const [last_name, setLastName ] = useState<string>('');
@@ -33,7 +36,12 @@ const AddEmployee = (props: AddEmployeeProps) => {
   const [validated, setValidated] = useState<boolean>(false);
   const [phoneError, setPhoneError] = useState<string>('');
 
-  const { setAddEmployee } = props;
+  // const { setAddEmployee } = props; //cant find props
+// const AddEmplyee: React.FC<AddEmployeeProps> = ({ isOpen, onClose}) => {
+//     if (!isOpen) {
+//       return null;
+//     }
+//   }
 
   const body: Body = {
     pin: pin,
@@ -100,73 +108,75 @@ const AddEmployee = (props: AddEmployeeProps) => {
   }
 
   return (
-    <div className='add_employee'>
-      <Form noValidate validated={validated} onSubmit={handleSubmit2}>
-        <Col classname='add_employee_col'>
-          {/* <Row className="mb-3"> */}
-          <div className='add_employee_inner'>
-            <Form.Group as={Col} md="4" controlId="validationCustom00">
-              {/* <Form.Label>Pin</Form.Label> */}
-              <Form.Control
-                required
-                type="text"
-                placeholder="Pin"
-                onChange={e => setPin(Number(e.target.value))}
-                className='add_employee_form_control'
-                />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="4" controlId="validationCustom01">
-              {/* <Form.Label>First name</Form.Label> */}
-              <Form.Control
-                required
-                type="text"
-                placeholder="First name"
-                onChange={e => setFirstName(e.target.value)}
-                className='add_employee_form_control'
-                />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="4" controlId="validationCustom02">
-              {/* <Form.Label>Last name</Form.Label> */}
-              <Form.Control
-                required
-                type="text"
-                placeholder="Last name"
-                onChange={e => setLastName(e.target.value)}
-                className='add_employee_form_control'
-                />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            {/* </Row> */}
+    <div className='add_employee_modal_overlay'>
+      <div className='add_employee' onClick={(e) => e.stopPropagation()}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit2}>
+          <Col classname='add_employee_col'>
             {/* <Row className="mb-3"> */}
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                {/* <Form.Label>Phone</Form.Label> */}
-                <Form.Control type="text" placeholder="Phone" required onChange={e => handlePhoneChange(e.target.value)} value={phone} isInvalid={!!phoneError} className='add_employee_form_control'/>
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid phone.
-                </Form.Control.Feedback>
+            <div className='add_employee_inner'>
+              <Form.Group as={Col} md="4" controlId="validationCustom00">
+                {/* <Form.Label>Pin</Form.Label> */}
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Pin"
+                  onChange={e => setPin(Number(e.target.value))}
+                  className='add_employee_form_control'
+                  />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="validationCustom04">
-                {/* <Form.Label>Email</Form.Label> */}
-                <Form.Control type="text" placeholder="Email" required onChange={e => setEmail(e.target.value)} className='add_employee_form_control'/>
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid email.
-                </Form.Control.Feedback>
+              <Form.Group as={Col} md="4" controlId="validationCustom01">
+                {/* <Form.Label>First name</Form.Label> */}
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="First name"
+                  onChange={e => setFirstName(e.target.value)}
+                  className='add_employee_form_control'
+                  />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="validationCustom05">
-                {/* <Form.Label>Hourly Rate</Form.Label> */}
-                <Form.Control type="text" placeholder="Hourly rate"  onChange={e => setHourlyRate(Number(e.target.value))} className='add_employee_form_control'/>
-                <Form.Control.Feedback type="invalid">
-                  Please provide a rate.
-                </Form.Control.Feedback>
+              <Form.Group as={Col} md="4" controlId="validationCustom02">
+                {/* <Form.Label>Last name</Form.Label> */}
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Last name"
+                  onChange={e => setLastName(e.target.value)}
+                  className='add_employee_form_control'
+                  />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
-            {/* </Row> */}
-          <Button type="submit" className='add_employee_submit_btn'>Submit</Button>
-          <button className='cancel_button' onClick={()=> setAddEmployee(false)}><Link to='/list'>Cancel</Link></button>
-          </div>
-        </Col>
-      </Form>
+              {/* </Row> */}
+              {/* <Row className="mb-3"> */}
+                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                  {/* <Form.Label>Phone</Form.Label> */}
+                  <Form.Control type="text" placeholder="Phone" required onChange={e => handlePhoneChange(e.target.value)} value={phone} isInvalid={!!phoneError} className='add_employee_form_control'/>
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid phone.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                  {/* <Form.Label>Email</Form.Label> */}
+                  <Form.Control type="text" placeholder="Email" required onChange={e => setEmail(e.target.value)} className='add_employee_form_control'/>
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid email.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom05">
+                  {/* <Form.Label>Hourly Rate</Form.Label> */}
+                  <Form.Control type="text" placeholder="Hourly rate"  onChange={e => setHourlyRate(Number(e.target.value))} className='add_employee_form_control'/>
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a rate.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              {/* </Row> */}
+            <Button type="submit" className='add_employee_submit_btn'>Submit</Button>
+            <button className='cancel_button' onClick={()=> setAddEmployee(false)}><Link to='/list'>Cancel</Link></button>
+            </div>
+          </Col>
+        </Form>
+      </div>
     </div>
   )
 }
