@@ -20,7 +20,7 @@ type EmployeeListProps = {
 }
 
 const EmployeeList = (props: EmployeeListProps) => {
-  // const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   // const [addEmployee, setAddEmployee] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -57,7 +57,7 @@ return (
     {/* {addEmployee && (
       <AddEmployee setAddEmployee={setAddEmployee}/>
     )} */}
-    <AddEmployee isOpen={isModalOpen} onClose={closeModal} />
+    <AddEmployee isOpen={isModalOpen} onClose={closeModal} setAddEmployee={setIsModalOpen}/>
     <h2>Employee List: </h2>
     <ul>
       {display}

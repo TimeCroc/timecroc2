@@ -25,7 +25,7 @@ type AddEmployeeProps ={
   setAddEmployee: (value: boolean) => void;
 }
 
-const AddEmployee: React.FC<AddEmployeeProps> = ({ isOpen, onClose }) => {
+const AddEmployee: React.FC<AddEmployeeProps> = ({ isOpen, onClose, setAddEmployee }) => {
   const [ pin, setPin ] = useState<number>(0);
   const [ first_name, setFirstName ] = useState<string>('');
   const [last_name, setLastName ] = useState<string>('');
@@ -102,7 +102,9 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ isOpen, onClose }) => {
     return (
       <div>
         <h3 style={{color: 'green'}}> {first_name} added! </h3>
-        <button onClick={()=> setAddEmployee(false)}><Link to='/list'>Back</Link></button>
+        <button onClick={()=> setAddEmployee(false)}>
+          <Link to='/list'>Back</Link>
+        </button>
       </div>
     )
   }
@@ -172,7 +174,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ isOpen, onClose }) => {
                 </Form.Group>
               {/* </Row> */}
             <Button type="submit" className='add_employee_submit_btn'>Submit</Button>
-            <button className='cancel_button' onClick={()=> setAddEmployee(false)}><Link to='/list'>Cancel</Link></button>
+            <button className='cancel_button' onClick={()=> setAddEmployee(false) }><Link to='/list'>Cancel</Link></button>
             </div>
           </Col>
         </Form>
